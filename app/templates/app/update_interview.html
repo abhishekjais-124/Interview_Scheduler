@@ -1,0 +1,107 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+
+{% block main-content %} 
+
+
+<div class = "heading-style">
+    <h2>
+        Interview Update
+    </h2>
+</div>
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong> {{error}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
+{% if success %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong> {{success}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
+
+<h3 class="heading2 mx-3" >Available Users</h3>
+<hr>
+
+<form action="." method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="Id" value="{{id}}">
+
+    <table class="table">
+        <thead class="thead-dark">
+          <tr class="text-center">
+            <th scope="col">User ID</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for user in selected_users %}
+            <tr class="text-center">
+            <th scope="row" >{{user.id}}</th>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td> <input type="checkbox" checked class="btn-check" id="btn-check{{user.id}}" autocomplete="off" onclick="ChangeCheckboxLabel(this)" name = "user-{{user.id}}" >
+                <label id = "btn-check{{user.id}}-checked" style="display: none;" class="btn btn-success px-5 py-2" for="btn-check{{user.id}}">Add</label>
+                <label id = "btn-check{{user.id}}-unchecked"   class="btn btn-danger px-4 py-2" for="btn-check{{user.id}}">Remove</label>
+            </td>
+        </tr>
+            {% endfor %}
+            {% for user in not_selectedusers %}
+            <tr class="text-center">
+            <th scope="row" >{{user.id}}</th>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+            <td> <input type="checkbox" class="btn-check" id="btn-check{{user.id}}" autocomplete="off" onclick="ChangeCheckboxLabel(this)" name = "user-{{user.id}}" >
+                <label id = "btn-check{{user.id}}-checked"  class="btn btn-success px-5 py-2" for="btn-check{{user.id}}">Add</label>
+                <label id = "btn-check{{user.id}}-unchecked" style="display: none;"  class="btn btn-danger px-4 py-2" for="btn-check{{user.id}}">Remove</label>
+            </td>
+        </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3 class="heading2 mx-3" >Select Time Slots</h3>
+    <hr>
+    <div style="text-align: center;" class="row">
+        <div class="col-sm-6 col-lg-4 offset-lg-2">
+            <label class="mx-1" for="start-time">Start Time </label>
+
+        <input onclick="setmin1()" type="datetime-local" id="start-time"
+            name="start-time"
+            max="2022-12-12T00:00"
+            value="{{start_time}}"
+            required >
+        </div>
+    
+        <div class="col-sm-6 col-lg-4">
+            <label class="mx-2" for="start-time">End Time </label>
+    
+        <input onclick="setmin2()" type="datetime-local" id="end-time"
+            name="end-time"
+            max="2022-12-12T00:00"
+            value = "{{end_time}}"
+            required >
+        </div>
+        
+    </div>
+    <hr>
+    
+    <div style="text-align: center;"><input type="submit" class="btn btn-lg btn-outline-info" value="Update Interview"></div>
+    
+
+</form>
+
+
+{% endblock main-content %}
+
+
+
+

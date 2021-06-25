@@ -1,0 +1,40 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Interviews{% endblock title %}
+
+{% block main-content %} 
+<div class = "heading-style">
+    <h2>
+        Interviews
+    </h2>
+</div>
+
+<div class="container" style="text-align: center;">
+    {% for data in datas %}
+    {% for d in data %}
+    <div class="row">
+        
+       
+        {% if forloop.counter == 1 %}
+        <div>
+        <span style="font-weight: 500;
+        font-size: larger;"><strong>Users:</strong></span>
+        {% for v in d %}
+            <span style="font-weight: bold;
+            font-size: larger; margin-right : 10px">{{v.user.name}}</span>
+        {% endfor %}
+        {% else %}
+        <div><strong>Day:</strong> {{d.startTime.day}}-{{d.startTime.month}}-{{d.startTime.year}}</div>
+        <div><strong>Start Time:</strong> {{d.startTime.hour}}:{{d.startTime.minute}}</div>
+        <div><strong>End Time:</strong> {{d.startTime.hour}}:{{d.startTime.minute}}</div>
+        
+        </div>
+        {% endif %}
+        
+    </div>
+    {% endfor %}
+    <hr>
+    {% endfor %}
+</div>
+
+{% endblock main-content %} 
